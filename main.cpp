@@ -23,6 +23,20 @@ void print_bin(uint64_t); // utility function to print bitboard in binary
 void print_bitboard(uint64_t board);
 uint64_t set_bit(uint64_t board, ChessCoordinate coordinate); 
 
+int to_1D(int x,int y, int width) {
+    //convert 2D coordinates to 1D coordinate
+    return x + y * width;
+
+}
+
+
+void get_userinput(string& coordinate, uint64_t &main_bitboard){
+    cout << "what coordinate?" << "\n";
+    cin >> coordinate;
+
+    main_bitboard = set_bit(main_bitboard,static_cast<ChessCoordinate>( to_1D(coordinate[0]-'a', coordinate[1]-'1',8) ));
+}
+
 int main () {
     uint64_t test_bitboard = 0; 
 
@@ -31,14 +45,16 @@ int main () {
     // int castlingright; 
 
     // testing
-    test_bitboard = set_bit(test_bitboard, a2);
-    test_bitboard = set_bit(test_bitboard, b2);
-    test_bitboard = set_bit(test_bitboard, c2);
-    test_bitboard = set_bit(test_bitboard, d2);
-    test_bitboard = set_bit(test_bitboard, e2);
-    test_bitboard = set_bit(test_bitboard, f2);
-    test_bitboard = set_bit(test_bitboard, g2);
-    test_bitboard = set_bit(test_bitboard, h2);
+    // test_bitboard = set_bit(test_bitboard, a2);
+    // test_bitboard = set_bit(test_bitboard, b2);
+    // test_bitboard = set_bit(test_bitboard, c2);
+    // test_bitboard = set_bit(test_bitboard, d2);
+    // test_bitboard = set_bit(test_bitboard, e2);
+    // test_bitboard = set_bit(test_bitboard, f2);
+    // test_bitboard = set_bit(test_bitboard, g2);
+    // test_bitboard = set_bit(test_bitboard, h2);
+    string coordinate;
+    get_userinput(coordinate,test_bitboard);
 
     print_bin(test_bitboard);
  
@@ -62,7 +78,7 @@ void print_bitboard(uint64_t board) {
     cout << "\n";
 
     for (int rank = 7; rank >= 0; rank--) {
-        cout << " " << rank << "  ";
+        cout << " " << rank+1 << "  ";
 
         for (int file = 0; file < 8; file++) {
             int square = (rank * 8 + file);
