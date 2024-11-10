@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdint>
-
+#include <algorithm>
+#include <string>
 using namespace std;
 
 // @btats i fixed the bitboard representation (the way squares are mapped to the bits of the bitboard) to match this, its better to work with
@@ -41,6 +42,7 @@ enum Files {
 void print_bin(uint64_t); // utility function to print bitboard in binary
 void print_bitboard(uint64_t board);
 uint64_t set_bit(uint64_t board, ChessCoordinate coordinate); 
+uint64_t clear_bit(uint64_t board, ChessCoordinate coordinate); 
 
 int to_1D(int x,int y, int width) {
     //convert 2D coordinates to 1D coordinate
@@ -51,9 +53,21 @@ int to_1D(int x,int y, int width) {
 
 void get_userinput(string& coordinate, uint64_t &main_bitboard){
     cout << "what coordinate?" << "\n";
-    cin >> coordinate;
+    getline(cin,coordinate);
+    coordinate.erase(remove(coordinate.begin(), coordinate.end(), ' '), coordinate.end());
+    int row_source, row_destination ,col_source,col_destination;
 
-    main_bitboard = set_bit(main_bitboard,static_cast<ChessCoordinate>( to_1D(coordinate[0]-'a', coordinate[1]-'1',8) ));
+    row_source = coordinate[0]-'a';   
+    col_source = coordinate[1]-'1';
+
+    row_destination = coordinate[2] - 'a';
+    col_destination = coordinate[3] - '1';
+
+    
+    main_bitboard = clear_bit(main_bitboard,static_cast<ChessCoordinate>(to_1D(row_source,col_source,8)));
+    main_bitboard = set_bit(main_bitboard,static_cast<ChessCoordinate>(to_1D(row_destination,col_destination,8)));
+   
+
 }
 uint64_t maskrank(Ranks rank){ 
     // utility function that tells us which piece x is in rank y
@@ -81,14 +95,14 @@ int main () {
     // int castlingright; 
 
     // testing
-    // test_bitboard = set_bit(test_bitboard, a2);
-    // test_bitboard = set_bit(test_bitboard, b2);
-    // test_bitboard = set_bit(test_bitboard, c2);
-    // test_bitboard = set_bit(test_bitboard, d2);
-    // test_bitboard = set_bit(test_bitboard, e2);
-    // test_bitboard = set_bit(test_bitboard, f2);
-    // test_bitboard = set_bit(test_bitboard, g3);
-    // test_bitboard = set_bit(test_bitboard, h2);
+     test_bitboard = set_bit(test_bitboard, a2);
+     test_bitboard = set_bit(test_bitboard, b2);
+     test_bitboard = set_bit(test_bitboard, c2);
+     test_bitboard = set_bit(test_bitboard, d2);
+     test_bitboard = set_bit(test_bitboard, e2);
+     test_bitboard = set_bit(test_bitboard, f2);
+     test_bitboard = set_bit(test_bitboard, g2);
+     test_bitboard = set_bit(test_bitboard, h2);
 
     //bitboards for pieces:
     // Black pieces 
@@ -113,6 +127,8 @@ int main () {
     string coordinate;
 
     print_bitboard(test_bitboard);
+    get_userinput(coordinate, test_bitboard);
+    print_bitboard(test_bitboard);
 
     return 0;
 }
@@ -126,6 +142,9 @@ void print_bin(uint64_t n) {
 
 uint64_t set_bit(uint64_t board, ChessCoordinate coordinate) {
     return board |= (1ULL << static_cast<int>(coordinate));
+}
+uint64_t clear_bit(uint64_t board, ChessCoordinate coordinate) {
+    return board & ~(1ULL << static_cast<int>(coordinate));
 }
 
 void print_bitboard(uint64_t board) {
