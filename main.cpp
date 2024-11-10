@@ -19,6 +19,7 @@ enum ChessCoordinate {
     a7, b7, c7, d7, e7, f7, g7, h7,
     a8, b8, c8, d8, e8, f8, g8, h8,
 };
+
 enum Ranks {
     rank_1 = 0x00000000000000FF, 
     rank_2 = 0x000000000000FF00,
@@ -29,6 +30,7 @@ enum Ranks {
     rank_7 = 0x00FF000000000000, 
     rank_8 = 0xFF00000000000000  
 };
+
 enum Files {
     file_a = 0x0101010101010101,
     file_b = 0x0202020202020202,
@@ -39,6 +41,7 @@ enum Files {
     file_g = 0x4040404040404040,
     file_h = 0x8080808080808080
 };
+
 void print_bin(uint64_t); // utility function to print bitboard in binary
 void print_bitboard(uint64_t board);
 uint64_t set_bit(uint64_t board, ChessCoordinate coordinate); 
