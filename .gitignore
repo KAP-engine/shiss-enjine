@@ -1,2 +1,5 @@
 *.exe
 .vscode/
+.ignore
+.DS_Store
+*.out
