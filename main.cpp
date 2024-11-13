@@ -9,6 +9,24 @@ using namespace std;
 // and the square h8 is the most significant bit of the bitboard 
 // https://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/rep.html, check the chess board mapping section
 
+// CHESSBOARD_T
+typedef struct {
+    // white pieces
+    uint64_t white_pawns;
+    uint64_t white_king;
+    uint64_t white_ministers; // "queen"
+    uint64_t white_rooks;
+    uint64_t white_elephants; // "bishop"
+    uint64_t white_knights;
+    // black pieces
+    uint64_t black_pawns;
+    uint64_t black_king;
+    uint64_t black_ministers; // "queen"
+    uint64_t black_rooks;
+    uint64_t black_elephants; // "bishop"
+    uint64_t black_knights;
+} chessboard_t;
+
 enum ChessCoordinate {
     a1, b1, c1, d1, e1, f1, g1, h1,
     a2, b2, c2, d2, e2, f2, g2, h2,
@@ -42,6 +60,7 @@ enum Files {
     file_h = 0x8080808080808080
 };
 
+chessboard_t new_chessboard(); 
 void print_bin(uint64_t); // utility function to print bitboard in binary
 void print_bitboard(uint64_t board);
 uint64_t set_bit(uint64_t board, ChessCoordinate coordinate); 
@@ -107,26 +126,12 @@ int main () {
      test_bitboard = set_bit(test_bitboard, g2);
      test_bitboard = set_bit(test_bitboard, h2);
 
-    //bitboards for pieces:
-    // Black pieces 
-    uint64_t Blackpawns = 0x00FF000000000000;  
-    uint64_t Blackknights = 0x4200000000000000;
-    uint64_t Blackbishops = 0x2400000000000000;  
-    uint64_t Blackrooks = 0x8100000000000000;
-    uint64_t Blackqueen = 0x800000000000000;   
-    uint64_t Blackking = 0x1000000000000000;
-
-    // White pieces 
-    uint64_t Whitepawns =  0x000000000000FF00;    
-    uint64_t Whiteknights = 0x0000000000000042;  
-    uint64_t Whitebishops = 0x0000000000000024;   
-    uint64_t Whiterooks = 0x0000000000000081;  
-    uint64_t Whitequeen = 0x8;  
-    uint64_t Whiteking = 0x0000000000000010;  
+    // NOTE TO THE BOYS, WE'LL WORK ON THIS LATER, SINCE WE HAVE TO UPDATE IT WITH EACH MOVE, IM GONNA FIND A WAY TO MAKE IT EASIER
     //special bitboards:
-    uint64_t AllWhitePieces = Whitepawns | Whiterooks | Whiteknights | Whitebishops | Whitequeen | Whiteking;
-    uint64_t ALLBlackPieces =  Blackpawns | Blackrooks | Blackknights | Blackbishops | Blackqueen | Blackking;;
-    uint64_t ALLPieces = AllWhitePieces | ALLBlackPieces;
+    // uint64_t AllWhitePieces = Whitepawns | Whiterooks | Whiteknights | Whitebishops | Whitequeen | Whiteking;
+    // uint64_t ALLBlackPieces =  Blackpawns | Blackrooks | Blackknights | Blackbishops | Blackqueen | Blackking;
+    // uint64_t ALLPieces = AllWhitePieces | ALLBlackPieces;
+
     string coordinate;
 
     print_bitboard(test_bitboard);
@@ -166,3 +171,20 @@ void print_bitboard(uint64_t board) {
     
     cout << "\n    a b c d e f g h \n\n\n";
 }
+
+chessboard_t new_chessboard() {
+    return (chessboard_t) {
+        .white_pawns = 0x000000000000FF00,
+        .white_king = 0x0000000000000010,
+        .white_ministers = 0x8, 
+        .white_rooks = 0x0000000000000081,
+        .white_elephants = 0x0000000000000024, 
+        .white_knights = 0x0000000000000042,
+        .black_pawns = 0x00FF000000000000,
+        .black_king = 0x1000000000000000,
+        .black_ministers = 0x800000000000000, 
+        .black_rooks = 0x8100000000000000,
+        .black_elephants = 0x2400000000000000, 
+        .black_knights = 0x4200000000000000,
+    };
+} 
