@@ -231,12 +231,12 @@ int evaluate_board(chessboard_t chessboard) {
     int blackAdvantage = 0;
 
     whiteAdvantage =
-    evaluate_piece(chessboard.white_pawns,pawn,0) +
-    evaluate_piece(chessboard.white_knights,knight,0) +
-    evaluate_piece(chessboard.white_elephants,elephant,0) +
-    evaluate_piece(chessboard.white_rooks,rook,0);
-    evaluate_piece(chessboard.white_ministers,queen,0) +
-    evaluate_piece(chessboard.white_king,king,0); 
+    evaluate_piece(chessboard.white_pawns, pawn,0) +
+    evaluate_piece(chessboard.white_knights, knight,0) +
+    evaluate_piece(chessboard.white_elephants, elephant,0) +
+    evaluate_piece(chessboard.white_rooks, rook,0);
+    evaluate_piece(chessboard.white_ministers, queen,0) +
+    evaluate_piece(chessboard.white_king, king,0); 
 
     blackAdvantage =
     evaluate_piece(chessboard.black_pawns, pawn, 0) +
