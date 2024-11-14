@@ -16,14 +16,14 @@ typedef struct {
     uint64_t white_king;
     uint64_t white_ministers; // "queen"
     uint64_t white_rooks;
-    uint64_t white_elephants; // "bishop"
+    uint64_t white_elephants; // "elephant"
     uint64_t white_knights;
     // black pieces
     uint64_t black_pawns;
     uint64_t black_king;
     uint64_t black_ministers; // "queen"
     uint64_t black_rooks;
-    uint64_t black_elephants; // "bishop"
+    uint64_t black_elephants; // "elephant"
     uint64_t black_knights;
 } chessboard_t;
 
@@ -61,7 +61,7 @@ enum Files {
 };
 
 enum Piece {
-    pawn, knight, bishop, rook, queen, king
+    pawn, knight, elephant, rook, queen, king
 };
 
 const int piece_value[12][64] {
@@ -87,7 +87,7 @@ const int piece_value[12][64] {
     -50,-40,-30,-30,-30,-30,-40,-50
     },
 
-    {//bishop value map
+    {//elephant value map
     -20,-10,-10,-10,-10,-10,-10,-20,
     -10,  5,  0,  0,  0,  0,  5,-10,
     -10, 10, 10, 10, 10, 10, 10,-10,
@@ -155,7 +155,7 @@ const int piece_value[12][64] {
     -50,-40,-30,-30,-30,-30,-40,-50
     },
 
-    {//bishop
+    {//elephant
     -20,-10,-10,-10,-10,-10,-10,-20,
     -10,  0,  0,  0,  0,  0,  0,-10,
     -10,  0,  5, 10, 10,  5,  0,-10,
@@ -226,6 +226,29 @@ int evaluate_piece(uint64_t board, Piece piece,int color) {
     return result;
 }
 
+int evaluate_board(chessboard_t chessboard) {
+    int whiteAdvantage = 0;
+    int blackAdvantage = 0;
+
+    whiteAdvantage =
+    evaluate_piece(chessboard.white_pawns,pawn,0) +
+    evaluate_piece(chessboard.white_knights,knight,0) +
+    evaluate_piece(chessboard.white_elephants,elephant,0) +
+    evaluate_piece(chessboard.white_rooks,rook,0);
+    evaluate_piece(chessboard.white_ministers,queen,0) +
+    evaluate_piece(chessboard.white_king,king,0); 
+
+    blackAdvantage =
+    evaluate_piece(chessboard.black_pawns, pawn, 0) +
+    evaluate_piece(chessboard.black_knights, knight, 0) +
+    evaluate_piece(chessboard.black_elephants, elephant, 0) +
+    evaluate_piece(chessboard.black_rooks, rook, 0) +
+    evaluate_piece(chessboard.black_ministers, queen, 0) +
+    evaluate_piece(chessboard.black_king, king, 0);
+
+    return whiteAdvantage-blackAdvantage;
+}
+
 void get_userinput(string& coordinate, uint64_t &main_bitboard){
     cout << "what coordinate?" << "\n";
     getline(cin,coordinate);
@@ -281,8 +304,8 @@ int main () {
 
     // NOTE TO THE BOYS, WE'LL WORK ON THIS LATER, SINCE WE HAVE TO UPDATE IT WITH EACH MOVE, IM GONNA FIND A WAY TO MAKE IT EASIER
     //special bitboards:
-    // uint64_t AllWhitePieces = Whitepawns | Whiterooks | Whiteknights | Whitebishops | Whitequeen | Whiteking;
-    // uint64_t ALLBlackPieces =  Blackpawns | Blackrooks | Blackknights | Blackbishops | Blackqueen | Blackking;
+    // uint64_t AllWhitePieces = Whitepawns | Whiterooks | Whiteknights | Whiteelephants | Whitequeen | Whiteking;
+    // uint64_t ALLBlackPieces =  Blackpawns | Blackrooks | Blackknights | Blackelephants | Blackqueen | Blackking;
     // uint64_t ALLPieces = AllWhitePieces | ALLBlackPieces;
 
     string coordinate;
