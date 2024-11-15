@@ -1,7 +1,8 @@
-#pragma once
 
 #include <cstdint>
 #include <iostream>
+
+#include "display.h"
 
 void print_bin(uint64_t n) {
     if (n > 1) {

@@ -1,4 +1,3 @@
-#pragma once
 
 #include <iostream>
 #include <cstdint>
@@ -9,6 +8,7 @@
 #include "display.h"
 #include "utils.h"
 #include "evaluation.h"
+#include "console.h"
 
 void get_userinput(std::string& coordinate, uint64_t &main_bitboard){
     std::cout << "what coordinate?" << "\n";
@@ -46,12 +46,11 @@ int main () {
     // uint64_t ALLBlackPieces =  Blackpawns | Blackrooks | Blackknights | Blackelephants | Blackqueen | Blackking;
     // uint64_t ALLPieces = AllWhitePieces | ALLBlackPieces;
 
-    std::string coordinate;
-
-    print_bitboard(test_bitboard);
-    std::cout << evaluate_bitboard(test_bitboard,pawn,1) << '\n';
-    get_userinput(coordinate, test_bitboard);
-    print_bitboard(test_bitboard);
+    std::string input;
+    do {
+        getline(std::cin, input);
+        parse_command(split_string(input),test_bitboard);
+    } while (input != "quit");
 
     return 0;
 }

@@ -1,4 +1,3 @@
-#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -6,6 +5,7 @@
 #include <string>
 
 #include "types_and_consts.h"
+#include "utils.h"
 
 uint64_t set_bit(uint64_t board, int coordinate) {
     return board |= (1ULL << coordinate);

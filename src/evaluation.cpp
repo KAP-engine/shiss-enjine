@@ -1,8 +1,8 @@
-#pragma once
 
 #include <cstdint>
 
 #include "types_and_consts.h"
+#include "evaluation.h"
 
 int evaluate_bitboard(uint64_t board, int piece, int color) {
     int result = 0;
