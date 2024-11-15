@@ -2,5 +2,7 @@
 .vscode/
 .ignore
 .DS_Store
+*.o
+bin
 *.out
 build/
