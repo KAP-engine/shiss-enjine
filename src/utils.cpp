@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include <sstream>
+#include <string>
 
 #include "types_and_consts.h"
 
@@ -14,6 +17,17 @@ uint64_t clear_bit(uint64_t board, int coordinate) {
 
 int to_index(int x,int y, int width) {
     return x + y * width;
+}
+
+std::vector<std::string> split_string(const std::string& s) {
+    std::vector<std::string> v;
+    std::stringstream ss(s);
+    std::string word;
+    while (ss >> word  ) {
+        v.push_back(word);
+    }
+
+    return v;
 }
 
 chessboard_t new_chessboard() {
