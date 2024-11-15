@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=
-CFILES=main.cpp utils.cpp evaluation.cpp console.cpp display.cpp
-OBJECTS=main.o utils.o evaluation.o console.o display.o
+CFILES=src/main.cpp src/utils.cpp src/evaluation.cpp src/console.cpp src/display.cpp
+OBJECTS=src/main.o src/utils.o src/evaluation.o src/console.o src/display.o
 BINARY=bin
 
 all: $(BINARY)
