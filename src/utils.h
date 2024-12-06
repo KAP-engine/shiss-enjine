@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-#include "types_and_consts.h"
+#include "chessboard.h"
 
 chessboard_t new_chessboard(); 
 
@@ -15,4 +15,6 @@ uint64_t set_bit(uint64_t board, int coordinate);
 
 uint64_t clear_bit(uint64_t board, int coordinate); 
 
-int to_index(int x, int y, int width);
+int to_index(int x, int y);
+
+char piece_char_at(chessboard_t& board, int square);

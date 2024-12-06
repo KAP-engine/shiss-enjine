@@ -2,24 +2,6 @@
 
 #include <cstdint>
 
-// CHESSBOARD_T
-typedef struct {
-    // white pieces
-    uint64_t white_pawns;
-    uint64_t white_king;
-    uint64_t white_ministers; // "queen"
-    uint64_t white_rooks;
-    uint64_t white_elephants; // "elephant"
-    uint64_t white_knights;
-    // black pieces
-    uint64_t black_pawns;
-    uint64_t black_king;
-    uint64_t black_ministers; // "queen"
-    uint64_t black_rooks;
-    uint64_t black_elephants; // "elephant"
-    uint64_t black_knights;
-} chessboard_t;
-
 enum {
     a1, b1, c1, d1, e1, f1, g1, h1,
     a2, b2, c2, d2, e2, f2, g2, h2,

@@ -4,8 +4,7 @@
 #include <sstream>
 #include <string>
 
-#include "types_and_consts.h"
-#include "utils.h"
+#include "chessboard.h"
 
 uint64_t set_bit(uint64_t board, int coordinate) {
     return board |= (1ULL << coordinate);
@@ -15,15 +14,43 @@ uint64_t clear_bit(uint64_t board, int coordinate) {
     return board & ~(1ULL << coordinate);
 }
 
-int to_index(int x,int y, int width) {
-    return x + y * width;
+int to_index(int x,int y) {
+    return x + y * 8;
+}
+
+char piece_char_at(chessboard_t& board, int square) {
+    if ((board.white_pawns >> square) & 1)
+        return 'P';
+    if ((board.white_king>> square) & 1)
+        return 'K';
+    if ((board.white_ministers >> square) & 1)
+        return 'Q';
+    if ((board.white_rooks >> square) & 1)
+        return 'R';
+    if ((board.white_elephants >> square) & 1)
+        return 'B';
+    if ((board.white_knights >> square) & 1)
+        return 'N';
+    if ((board.black_pawns >> square) & 1)
+        return 'p';
+    if ((board.black_king>> square) & 1)
+        return 'k';
+    if ((board.black_ministers >> square) & 1)
+        return 'q';
+    if ((board.black_rooks >> square) & 1)
+        return 'r';
+    if ((board.black_elephants >> square) & 1) 
+        return 'b';
+    if ((board.black_knights >> square) & 1)
+        return 'n';
+    return 'b';
 }
 
 std::vector<std::string> split_string(const std::string& s) {
     std::vector<std::string> v;
     std::stringstream ss(s);
     std::string word;
-    while (ss >> word  ) {
+    while (ss >> word) {
         v.push_back(word);
     }
 
