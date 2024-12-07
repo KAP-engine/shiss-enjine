@@ -8,9 +8,8 @@ void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
     } else if (cmd[0] == "move") {
         int row_source = cmd[1][0]-'a';   
         int col_source = cmd[1][1]-'1';
-
-        int row_destination = cmd[2][0] - 'a';
-        int col_destination = cmd[2][1] - '1';
+        int row_destination = cmd[1][2] - 'a';
+        int col_destination = cmd[1][3] - '1';
 
         chessboard_move(
                         board, 

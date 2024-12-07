@@ -10,6 +10,8 @@
 #include "console.h"
 
 int main () {
+    std::cout << "program started" << std::endl;
+
     chessboard_t board = new_chessboard();
 
     std::string input;

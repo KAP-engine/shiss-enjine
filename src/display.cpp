@@ -40,7 +40,7 @@ void print_chessboard(chessboard_t board) {
         for (int file = 0; file < 8; file++) {
             int square = (rank * 8 + file);
 
-            std::cout << piece_char_at(&board, square) << " ";  
+            std::cout << piece_char_at(board, square) << " ";  
         }
 
         std::cout << "\n";

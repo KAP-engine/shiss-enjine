@@ -13,13 +13,10 @@ enum {
     a8, b8, c8, d8, e8, f8, g8, h8,
 };
 
-enum {
-    pawn, knight, elephant, rook, queen, king
-};
-
-enum {
-    white, black
-};
+// for bitboard indexing
+enum { pawn, knights, elephants, rooks, ministers, king };
+// for turn and bitboard indexing
+enum { white, black };
 
 const uint64_t RANK_MASKS[] = {
     0x00000000000000FF, 
