@@ -16,5 +16,6 @@ void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
                         to_index(row_source, col_source), 
                         to_index(row_destination, col_destination)
                     );
+    } else if (cmd[0] == "move_gen") {
     }
 }

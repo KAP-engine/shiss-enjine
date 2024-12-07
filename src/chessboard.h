@@ -10,4 +10,7 @@ typedef struct {
 
 void chessboard_move(chessboard_t&, int source, int destination);
 
+uint64_t all_white_pieces(chessboard_t &board); 
+uint64_t all_black_pieces(chessboard_t &board); 
+
 chessboard_t new_chessboard();

@@ -13,12 +13,15 @@ enum {
     a8, b8, c8, d8, e8, f8, g8, h8,
 };
 
+enum { file_a, file_b, file_c, file_d, file_e, file_f, file_g, file_h };
+enum { rank_1, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8 };
+
 // for bitboard indexing
-enum { pawn, knights, elephants, rooks, ministers, king };
+enum { pawns, knights, elephants, rooks, ministers, king };
 // for turn and bitboard indexing
 enum { white, black };
 
-const uint64_t RANK_MASKS[] = {
+const uint64_t MASK_RANK[] = {
     0x00000000000000FF, 
     0x000000000000FF00,
     0x0000000000FF0000, 
@@ -29,7 +32,7 @@ const uint64_t RANK_MASKS[] = {
     0xFF00000000000000  
 };
 
-const uint64_t FILE_MASKS[] = {
+const uint64_t MASK_FILE[] = {
     0x0101010101010101,
     0x0202020202020202,
     0x0404040404040404,
