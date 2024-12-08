@@ -1,6 +1,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <array>
 
 #include "display.h"
 #include "chessboard.h"
@@ -15,23 +16,24 @@ void print_bin(uint64_t n) {
 }
 
 void print_bitboard(uint64_t board) {
-    std::cout << "\n";
-
-    for (int rank = 7; rank >= 0; rank--) {
-        std::cout << " " << rank + 1 << "  ";
-
-        for (int file = 0; file < 8; file++) {
-            int square = (rank * 8 + file);
-            std::cout << ((board >> square) & 1) << " ";  
-        }
-
-        std::cout << "\n";
+    std::array<std::string, 64> values;
+    for (int i = 0; i < 64; i++) {
+        values[i] = ((board >> i) & 1) == 1 ? "1" : "0";
     }
-    
-    std::cout << "\n    a b c d e f g h \n\n\n";
+
+    print_board_layout(values);
 }
 
 void print_chessboard(chessboard_t board) {
+    std::array<std::string, 64> values;
+    for (int i = 0; i < 64; i++) {
+        values[i] = piece_char_at(board, i);
+    }
+
+    print_board_layout(values);
+}
+
+void print_board_layout(std::array<std::string, 64> values) {
     std::cout << "\n";
 
     for (int rank = 7; rank >= 0; rank--) {
@@ -40,7 +42,7 @@ void print_chessboard(chessboard_t board) {
         for (int file = 0; file < 8; file++) {
             int square = (rank * 8 + file);
 
-            std::cout << piece_char_at(board, square) << " ";  
+            std::cout << values[square] << " ";  
         }
 
         std::cout << "\n";
