@@ -12,7 +12,7 @@
 #include "types_and_consts.h"
 
 int main () {
-    std::cout << "program started" << std::endl;
+    std::cout << "shiss enjine activated, glory to shisha" << std::endl;
 
     chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
