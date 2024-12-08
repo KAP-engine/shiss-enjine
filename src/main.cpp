@@ -16,7 +16,8 @@ int main () {
 
     chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-    print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));
+    // print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));
+    print_bitboard(compute_knight(0x8000000, 0));
 
     std::string input;
     do {
