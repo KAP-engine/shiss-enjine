@@ -34,7 +34,7 @@ char piece_char_at(chessboard_t &board, int square_index) {
             case 0:
                 return 'P';
             case 1:
-                return 'K';
+                return 'N';
             case 2:
                 return 'B';
             case 3:
@@ -46,7 +46,7 @@ char piece_char_at(chessboard_t &board, int square_index) {
             case 6:
                 return 'p';
             case 7:
-                return 'k';
+                return 'n';
             case 8:
                 return 'b';
             case 9:

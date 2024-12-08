@@ -14,7 +14,7 @@
 int main () {
     std::cout << "program started" << std::endl;
 
-    chessboard_t board = new_chessboard();
+    chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
     print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));
 
