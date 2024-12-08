@@ -40,6 +40,21 @@ uint64_t all_black_pieces(chessboard_t &board) {
         board.bitboards[black*6 + king];
 } 
 
+uint64_t all_pieces(chessboard_t &board) {
+    return board.bitboards[white + pawns] |
+        board.bitboards[white + knights] | 
+        board.bitboards[white + elephants] | 
+        board.bitboards[white + rooks] | 
+        board.bitboards[white + ministers] | 
+        board.bitboards[white + king] |
+        board.bitboards[black*6 + pawns] |
+        board.bitboards[black*6 + knights] | 
+        board.bitboards[black*6 + elephants] | 
+        board.bitboards[black*6 + rooks] | 
+        board.bitboards[black*6 + ministers] | 
+        board.bitboards[black*6 + king];
+} 
+
 chessboard_t from_fen(std::string fen) {
 
     // TODO: VERIFY THE STRING WITH REGEX
