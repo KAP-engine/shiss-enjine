@@ -20,20 +20,20 @@ int evaluate_board(chessboard_t chessboard) {
     int blackAdvantage = 0;
 
     whiteAdvantage =
-    evaluate_bitboard(chessboard.white_pawns, pawn,0) +
-    evaluate_bitboard(chessboard.white_knights, knight,0) +
-    evaluate_bitboard(chessboard.white_elephants, elephant,0) +
-    evaluate_bitboard(chessboard.white_rooks, rook,0) +
-    evaluate_bitboard(chessboard.white_ministers, queen,0) +
-    evaluate_bitboard(chessboard.white_king, king,0); 
+    evaluate_bitboard(chessboard.bitboards[white+pawns], pawns,0) +
+    evaluate_bitboard(chessboard.bitboards[white+knights], knights,0) +
+    evaluate_bitboard(chessboard.bitboards[white+elephants], elephants,0) +
+    evaluate_bitboard(chessboard.bitboards[white+rooks], rooks,0) +
+    evaluate_bitboard(chessboard.bitboards[white+ministers], ministers,0) +
+    evaluate_bitboard(chessboard.bitboards[white+king], king,0); 
 
     blackAdvantage =
-    evaluate_bitboard(chessboard.black_pawns, pawn, 0) +
-    evaluate_bitboard(chessboard.black_knights, knight, 0) +
-    evaluate_bitboard(chessboard.black_elephants, elephant, 0) +
-    evaluate_bitboard(chessboard.black_rooks, rook, 0) +
-    evaluate_bitboard(chessboard.black_ministers, queen, 0) +
-    evaluate_bitboard(chessboard.black_king, king, 0);
+    evaluate_bitboard(chessboard.bitboards[black*6+pawns], pawns, 0) +
+    evaluate_bitboard(chessboard.bitboards[black*6+knights], knights, 0) +
+    evaluate_bitboard(chessboard.bitboards[black*6+elephants], elephants, 0) +
+    evaluate_bitboard(chessboard.bitboards[black*6+rooks], rooks, 0) +
+    evaluate_bitboard(chessboard.bitboards[black*6+ministers], ministers, 0) +
+    evaluate_bitboard(chessboard.bitboards[black*6+king], king, 0);
 
     return whiteAdvantage-blackAdvantage;
 }
