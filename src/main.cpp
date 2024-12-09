@@ -12,14 +12,17 @@
 #include "types_and_consts.h"
 
 int main () {
-    print_bitboard(0x0101010101010100);
+    // print_bin(reverse_bitboard(0x26));
+    // print_bitboard(0x0101010101010100);
     std::cout << "shiss enjine activated, glory to shisha" << std::endl;
 
     chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
     // print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));
     // print_bitboard(compute_knight(0x8000000, 0));
-    print_bitboard(compute_black_pawn(0x20000000000000, all_black_pieces(board), all_pieces(board)));
+    // print_bitboard(compute_black_pawn(0x20000000000000, all_black_pieces(board), all_pieces(board)));
+    print_bitboard(0x8000000);
+    print_bitboard(compute_sliding_piece(rooks, 0x8000000, all_pieces(board), all_white_pieces(board)));
 
     std::string input;
     do {

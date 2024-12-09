@@ -22,6 +22,13 @@ uint64_t clear_bit_val(uint64_t board, int index) {
     return board & ~(1ULL << index);
 }
 
+int64_t reverse_bitboard(uint64_t bitboard) {
+    uint64_t reversed = 0;
+    for(int i = 0; i < 64; i++)
+         reversed |= ((bitboard>>i) & 0b1)<<(63-i);
+    return reversed;
+}
+
 int to_index(int x,int y) {
     return x + y * 8;
 }

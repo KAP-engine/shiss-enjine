@@ -1,6 +1,9 @@
 #include <cstdint>
+#include <iostream>
+#include <math.h>
 
 #include "movegen.h"
+#include "utils.h"
 #include "types_and_consts.h"
 
 uint64_t compute_king(uint64_t king_loc, uint64_t own_side) { 
@@ -86,4 +89,52 @@ uint64_t compute_black_pawn(
         pawn_one_step | pawn_two_step | pawn_right_attack | pawn_left_attack;
 
     return pawn_valid_moves;
+}
+
+int first_set_bit(int n) {
+    return log2(n & -n);
+}
+
+uint64_t compute_sliding_piece(
+    int piece_type,
+    uint64_t piece_loc, 
+    uint64_t all_pieces,
+    uint64_t own_side
+) {
+
+    uint64_t final_moves = 0;
+
+    if (piece_type == rooks || piece_type == ministers) {
+        size_t piece_loc_index = first_set_bit(piece_loc);
+
+        uint64_t o = all_pieces;
+        uint64_t s = piece_loc;
+
+        uint64_t horizontal_moves = (
+            (o - 2*s) ^ 
+            reverse_bitboard(reverse_bitboard(o) - 2*reverse_bitboard(s))
+        ) & MASK_RANK[(int)floor(piece_loc_index / 8)] & ~own_side; // flooring is automatic
+
+        uint64_t m = MASK_FILE[piece_loc_index % 8];
+        uint64_t vertical_moves = (
+            ((o&m) - 2*s) ^ 
+            reverse_bitboard(reverse_bitboard(o&m) - 2*reverse_bitboard(s))
+        ) & m & ~own_side;
+
+
+        final_moves |= horizontal_moves | vertical_moves;
+    }
+
+    if (piece_type == elephants || piece_type == ministers) {
+        uint64_t diagonal_moves = 0;
+
+        uint64_t antidiagonal_moves = 0;
+
+        final_moves |= diagonal_moves | antidiagonal_moves;
+    }
+
+    
+// (((o&m)-2s) ^ ((o&m)'-2s')') &m
+
+    return final_moves;
 }
