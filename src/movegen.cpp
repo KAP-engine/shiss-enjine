@@ -1,7 +1,10 @@
+#include <_types/_uint64_t.h>
 #include <cstdint>
 #include <iostream>
 #include <math.h>
+#include <sys/_types/_size_t.h>
 
+#include "display.h"
 #include "movegen.h"
 #include "utils.h"
 #include "types_and_consts.h"
@@ -91,8 +94,34 @@ uint64_t compute_black_pawn(
     return pawn_valid_moves;
 }
 
-int first_set_bit(int n) {
+// index least significant bit
+int first_set_bit(uint64_t n) {
     return log2(n & -n);
+}
+
+size_t get_diagonal_mask_index(uint64_t piece_index) {
+    int x = piece_index % 8;
+    int y = floor(piece_index / 8);
+    int ix = 7 - x; // inverted x
+
+    if (ix+y <= 7) {
+        return 7 + (piece_index - y * 9);
+    }
+
+    // return 14 - (y - (7-ix) + 7);
+    return 7 - y + x ;
+}
+
+size_t get_antidiagonal_mask_index(uint64_t piece_index) {
+    int x = piece_index % 8;
+    int y = floor(piece_index / 8);
+
+    if (x+y <= 7) {
+        return piece_index - y * 7;
+    }
+
+    // return y - (7-x) + 7;
+    return y + x;
 }
 
 uint64_t compute_sliding_piece(
@@ -101,11 +130,10 @@ uint64_t compute_sliding_piece(
     uint64_t all_pieces,
     uint64_t own_side
 ) {
-
     uint64_t final_moves = 0;
 
     if (piece_type == rooks || piece_type == ministers) {
-        size_t piece_loc_index = first_set_bit(piece_loc);
+        int piece_loc_index = first_set_bit(piece_loc);
 
         uint64_t o = all_pieces;
         uint64_t s = piece_loc;
@@ -121,20 +149,33 @@ uint64_t compute_sliding_piece(
             reverse_bitboard(reverse_bitboard(o&m) - 2*reverse_bitboard(s))
         ) & m & ~own_side;
 
-
         final_moves |= horizontal_moves | vertical_moves;
     }
 
     if (piece_type == elephants || piece_type == ministers) {
-        uint64_t diagonal_moves = 0;
+        size_t piece_loc_index = first_set_bit(piece_loc);
 
-        uint64_t antidiagonal_moves = 0;
+        uint64_t o = all_pieces;
+        uint64_t s = piece_loc;
 
+
+        uint64_t md = MASK_DIAGONAL[get_diagonal_mask_index(piece_loc_index)];
+        uint64_t diagonal_moves= (
+            ((o&md) - 2*s) ^ 
+            reverse_bitboard(reverse_bitboard(o&md) - 2*reverse_bitboard(s))
+        ) & md & ~own_side;
+
+        uint64_t mad = MASK_ANTIDIAGONAL[get_antidiagonal_mask_index(piece_loc_index)];
+        uint64_t antidiagonal_moves= (
+            ((o&mad) - 2*s) ^ 
+            reverse_bitboard(reverse_bitboard(o&mad) - 2*reverse_bitboard(s))
+        ) & mad & ~own_side;
+
+        print_bitboard(diagonal_moves);
         final_moves |= diagonal_moves | antidiagonal_moves;
-    }
+    } 
 
-    
-// (((o&m)-2s) ^ ((o&m)'-2s')') &m
+    // (((o&m)-2s) ^ ((o&m)'-2s')') &m
 
     return final_moves;
 }
