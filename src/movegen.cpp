@@ -1,8 +1,6 @@
 #include <cstdint>
-#include <iostream>
 #include <math.h>
 
-#include "display.h"
 #include "movegen.h"
 #include "utils.h"
 #include "types_and_consts.h"
@@ -169,7 +167,6 @@ uint64_t compute_sliding_piece(
             reverse_bitboard(reverse_bitboard(o&mad) - 2*reverse_bitboard(s))
         ) & mad & ~own_side;
 
-        print_bitboard(diagonal_moves);
         final_moves |= diagonal_moves | antidiagonal_moves;
     } 
 

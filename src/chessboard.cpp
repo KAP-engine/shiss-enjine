@@ -1,9 +1,5 @@
 #pragma once
 
-#include <_types/_uint8_t.h>
-#include <cctype>
-#include <iostream>
-#include <ctype.h>
 #include <math.h>
 
 #include "chessboard.h"

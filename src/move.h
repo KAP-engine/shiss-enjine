@@ -23,9 +23,11 @@ const uint32_t MASK_CASTLING = 0b11 << 17;
 // And for castling, 00 and 11 means that this is not a castling move, 01 that
 // it is a short castling and 10 that it is a long castle.
 
+// This function constructs a move from it's parameters.
 uint32_t new_move(int source, int target, int promotion_type, uint8_t capture_flag,
                   uint8_t double_pawn_move_flag, uint8_t en_passant_flag, int castling);
 
+// These functions serve to decode a move.
 uint8_t get_move_source(uint32_t move);
 uint8_t get_move_target(uint32_t move);
 uint8_t get_move_promotion_type(uint32_t move);

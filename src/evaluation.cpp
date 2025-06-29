@@ -1,11 +1,10 @@
-
 #include <cstdint>
 
 #include "types_and_consts.h"
 #include "evaluation.h"
 #include "chessboard.h"
 
-int evaluate_bitboard(uint64_t board, int piece, int color) {
+int evaluate_bitboard(uint64_t board, uint8_t piece, uint8_t color) {
     int result = 0;
     for (int i = 0;i<64;i++) {
         if ((1ULL << i ) & board) {

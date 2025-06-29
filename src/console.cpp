@@ -1,7 +1,8 @@
+#include <string>
+
 #include "console.h"
 #include "chessboard.h"
 #include "utils.h"
-#include <string>
 
 void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
     if (cmd[0] == "display") {
