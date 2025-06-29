@@ -1,5 +1,6 @@
 #pragma once
 
+#include <_types/_uint8_t.h>
 #include <cctype>
 #include <iostream>
 #include <ctype.h>
@@ -8,16 +9,49 @@
 #include "chessboard.h"
 #include "display.h"
 #include "utils.h"
+#include "move.h"
 #include "types_and_consts.h"
 
-void chessboard_move(chessboard_t& board, int source, int dest) {
+void chessboard_direct_move(chessboard_t& board, int source, int target) {
     for (std::size_t i = 0; i < board.bitboards.size(); i++) {
         int square_occupied = (board.bitboards[i] >> source) & 1;
         if (!square_occupied)
             continue;
 
         clear_bit(board.bitboards[i], source);
-        set_bit(board.bitboards[i], dest);
+        set_bit(board.bitboards[i], target);
+        break;
+    }
+}
+
+void chessboard_make_move(chessboard_t& board, uint32_t move) {
+    uint8_t source = get_move_source(move); 
+    uint8_t target = get_move_target(move);
+
+    bool is_capture = is_move_capture(move);
+
+    // clear captured square
+    if (is_capture) {
+        for (std::size_t i = 0; i < board.bitboards.size(); i++) {
+            bool square_occupied = (board.bitboards[i] >> target) & 1;
+            if (!square_occupied) {
+                continue;
+            }
+
+            clear_bit(board.bitboards[i], target);
+            break;
+        }
+    }
+
+    // move piece
+    for (std::size_t i = 0; i < board.bitboards.size(); i++) {
+        bool square_occupied = (board.bitboards[i] >> source) & 1;
+        if (!square_occupied) {
+            continue;
+        }
+
+        clear_bit(board.bitboards[i], source);
+        set_bit(board.bitboards[i], target);
         break;
     }
 }

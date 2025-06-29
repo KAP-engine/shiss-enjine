@@ -1,6 +1,7 @@
 #include "console.h"
 #include "chessboard.h"
 #include "utils.h"
+#include <string>
 
 void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
     if (cmd[0] == "display") {
@@ -11,11 +12,16 @@ void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
         int row_destination = cmd[1][2] - 'a';
         int col_destination = cmd[1][3] - '1';
 
-        chessboard_move(
+        chessboard_direct_move(
                         board, 
                         to_index(row_source, col_source), 
                         to_index(row_destination, col_destination)
                     );
-    } else if (cmd[0] == "move_gen") {
+    } else if (cmd[0] == "intmove") {
+        uint32_t move = std::stoi(cmd[1]);
+        std::cout << move << std::endl;
+        chessboard_make_move(board, move);
+    }
+    else if (cmd[0] == "move_gen") {
     }
 }

@@ -5,6 +5,7 @@
 
 #include "chessboard.h"
 #include "display.h"
+#include "move.h"
 #include "utils.h"
 #include "evaluation.h"
 #include "console.h"
@@ -22,6 +23,9 @@ int main () {
     // print_bitboard(compute_knight(0x8000000, 0));
     // print_bitboard(compute_black_pawn(0x20000000000000, all_black_pieces(board), all_pieces(board)));
     // print_bitboard(compute_sliding_piece(ministers, 0x20000000, all_pieces(board), all_white_pieces(board)));
+
+    // chessboard_make_move(board, new_move(3, 62, 0, 1, 0, 0, 0));
+    // print_bitboard(board.bitboards[black*6+knights]);
 
     std::string input;
     do {
