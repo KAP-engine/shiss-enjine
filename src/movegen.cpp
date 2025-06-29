@@ -1,8 +1,6 @@
-#include <_types/_uint64_t.h>
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include <sys/_types/_size_t.h>
 
 #include "display.h"
 #include "movegen.h"
