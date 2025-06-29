@@ -3,16 +3,28 @@
 #include <cstdint>
 #include <array>
 
+const uint8_t CASTLING_WHITE_SHORT = 0b0001;
+const uint8_t CASTLING_WHITE_LONG = 0b0010;
+const uint8_t CASTLING_BLACK_SHORT = 0b0100;
+const uint8_t CASTLING_BLACK_LONG = 0b1000;
+
 // CHESSBOARD_T
-// The order of the bit boards is as follows (capital letters are white pieces
-// and lowercase letters are black pieces):
-// P, N, B, R, Q, K
-// p, n, b, r, q, k
-// The least significant bit of a bit board represent the bottom left square of
-// the board.
 typedef struct {
+    // The order of the bit boards is as follows (capital letters are white pieces
+    // and lowercase letters are black pieces):
+    // P, N, B, R, Q, K
+    // p, n, b, r, q, k
+    // The least significant bit of a bit board represent the bottom left square of
+    // the board.
     std::array<uint64_t, 12> bitboards;
-    uint8_t active_side; // 0 for white, 1 for black
+    // 0 for white, 1 for black
+    uint8_t active_side; 
+    // For castling:
+    // 0001 white short castle
+    // 0010 white long castle
+    // 0100 black short castle
+    // 1000 black long castle
+    uint8_t castling_rights;
 } chessboard_t;
 
 // This function moves a piece from a square to another, i (masmitish) used it

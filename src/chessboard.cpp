@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <string>
 
 #include "chessboard.h"
 #include "display.h"
@@ -104,10 +105,26 @@ chessboard_t from_fen(std::string fen) {
     chessboard_t board;
 
     // setting up the active side
+    board.active_side = 0;
     if (partitions[1] == "w" || partitions[1] == "W") {
         board.active_side = 0;
     } else if (partitions[1] == "b" || partitions[1] == "B") {
         board.active_side = 1;
+    }
+
+    // setting up castling rights
+    board.castling_rights = 0;
+    if (partitions[2].find("K") != std::string::npos) {
+        board.castling_rights |= 0b0001;
+    }
+    if (partitions[2].find("Q") != std::string::npos) {
+        board.castling_rights |= 0b0010;
+    }
+    if (partitions[2].find("k") != std::string::npos) {
+        board.castling_rights |= 0b0100;
+    }
+    if (partitions[2].find("q") != std::string::npos) {
+        board.castling_rights |= 0b1000;
     }
 
     // setting up bit boards
@@ -190,5 +207,6 @@ chessboard_t new_chessboard() {
             0x1000000000000000, // black king
         },
         .active_side = 0,
+        .castling_rights = 0b1111,
     };
 } 

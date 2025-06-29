@@ -56,4 +56,11 @@ void print_board_info(chessboard_t& board) {
     std::cout << "    Active:   "
               << (int(board.active_side) ? "black" : "white")
               << "\n";
+
+    std::cout << "    Castling:  "
+              << (board.castling_rights & CASTLING_WHITE_LONG ? "K" : "")
+              << (board.castling_rights & CASTLING_WHITE_SHORT ? "Q" : "")
+              << (board.castling_rights & CASTLING_BLACK_LONG ? "k" : "")
+              << (board.castling_rights & CASTLING_BLACK_SHORT ? "q" : "")
+              << "\n";
 }
