@@ -65,7 +65,7 @@ char piece_char_at(chessboard_t &board, int square_index) {
         }
     }
 
-    return ' ';
+    return '.';
 }
 
 std::vector<std::string> split_string(const std::string &s) {

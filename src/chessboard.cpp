@@ -102,6 +102,15 @@ chessboard_t from_fen(std::string fen) {
     partitions.push_back(fen.substr(start));    
 
     chessboard_t board;
+
+    // setting up the active side
+    if (partitions[1] == "w" || partitions[1] == "W") {
+        board.active_side = 0;
+    } else if (partitions[1] == "b" || partitions[1] == "B") {
+        board.active_side = 1;
+    }
+
+    // setting up bit boards
     for (size_t i = 0; i < board.bitboards.size(); i++) {
         board.bitboards[i] = 0;
     }
@@ -180,5 +189,6 @@ chessboard_t new_chessboard() {
             0x800000000000000, // black ministers
             0x1000000000000000, // black king
         },
+        .active_side = 0,
     };
 } 

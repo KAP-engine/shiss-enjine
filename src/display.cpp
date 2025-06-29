@@ -30,6 +30,8 @@ void print_chessboard(chessboard_t board) {
     }
 
     print_board_layout(values);
+    std::cout << "\n";
+    print_board_info(board);
 }
 
 void print_board_layout(std::array<std::string, 64> values) {
@@ -47,5 +49,11 @@ void print_board_layout(std::array<std::string, 64> values) {
         std::cout << "\n";
     }
     
-    std::cout << "\n    a b c d e f g h \n\n\n";
+    std::cout << "\n    a b c d e f g h \n";
+}
+
+void print_board_info(chessboard_t& board) {
+    std::cout << "    Active:   "
+              << (int(board.active_side) ? "black" : "white")
+              << "\n";
 }

@@ -12,6 +12,7 @@
 // the board.
 typedef struct {
     std::array<uint64_t, 12> bitboards;
+    uint8_t active_side; // 0 for white, 1 for black
 } chessboard_t;
 
 // This function moves a piece from a square to another, i (masmitish) used it
