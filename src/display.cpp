@@ -4,6 +4,7 @@
 
 #include "display.h"
 #include "chessboard.h"
+#include "types_and_consts.h"
 #include "utils.h"
 
 void print_bin(uint64_t n) {

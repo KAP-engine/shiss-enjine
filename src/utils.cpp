@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdint>
 #include <vector>
 #include <sstream>
@@ -26,6 +27,18 @@ int64_t reverse_bitboard(uint64_t bitboard) {
     for(int i = 0; i < 64; i++)
          reversed |= ((bitboard>>i) & 0b1)<<(63-i);
     return reversed;
+}
+
+int first_set_bit(uint64_t n) {
+    return log2(n & -n);
+}
+
+uint64_t range_bits(uint64_t a, uint64_t b) {
+    if (a > b) {
+        std::swap(a, b);
+    }
+    uint64_t mask = (1U << (b - a + 1)) - 1; 
+    return (mask << a);
 }
 
 int to_index(int x,int y) {

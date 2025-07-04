@@ -3,11 +3,6 @@
 #include <cstdint>
 #include <array>
 
-const uint8_t CASTLING_WHITE_SHORT = 0b0001;
-const uint8_t CASTLING_WHITE_LONG = 0b0010;
-const uint8_t CASTLING_BLACK_SHORT = 0b0100;
-const uint8_t CASTLING_BLACK_LONG = 0b1000;
-
 // CHESSBOARD_T
 typedef struct {
     // The order of the bit boards is as follows (capital letters are white pieces
@@ -27,13 +22,18 @@ typedef struct {
     uint8_t castling_rights;
 } chessboard_t;
 
+// MOVE_ERROR enum
+typedef enum {
+    None,
+} move_error;
+
 // This function moves a piece from a square to another, i (masmitish) used it
 // for debugging and eventually grew emotionally attached to it, so i don't
 // want to delete it.
 void chessboard_direct_move(chessboard_t &, int source, int destination);
 
 // This function takes an encoded move, processes it, and makes it.
-void chessboard_make_move(chessboard_t& board, uint32_t move);
+move_error chessboard_make_move(chessboard_t& board, uint32_t move);
 
 // These three functions return a bit board of which squares are full according
 // to their names.

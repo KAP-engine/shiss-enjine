@@ -1,10 +1,9 @@
-#pragma once
-
 #include <math.h>
 #include <string>
 
 #include "chessboard.h"
 #include "display.h"
+#include "movegen.h"
 #include "utils.h"
 #include "move.h"
 #include "types_and_consts.h"
@@ -21,13 +20,20 @@ void chessboard_direct_move(chessboard_t& board, int source, int target) {
     }
 }
 
-void chessboard_make_move(chessboard_t& board, uint32_t move) {
+move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
     uint8_t source = get_move_source(move); 
     uint8_t target = get_move_target(move);
 
-    bool is_capture = is_move_capture(move);
-
+    // castling
+    uint8_t castling_type = get_move_castling(move);
+    if (castling_type != 0b00 || castling_type != 0b11) {
+        if (can_castle(board, board.active_side, castling_type)) {
+            return None;
+        }
+    }
+    
     // clear captured square
+    bool is_capture = is_move_capture(move);
     if (is_capture) {
         for (std::size_t i = 0; i < board.bitboards.size(); i++) {
             bool square_occupied = (board.bitboards[i] >> target) & 1;
@@ -51,6 +57,10 @@ void chessboard_make_move(chessboard_t& board, uint32_t move) {
         set_bit(board.bitboards[i], target);
         break;
     }
+
+    // handle promotion
+
+    return None;
 }
 
 uint64_t all_white_pieces(chessboard_t &board) {
@@ -107,24 +117,24 @@ chessboard_t from_fen(std::string fen) {
     // setting up the active side
     board.active_side = 0;
     if (partitions[1] == "w" || partitions[1] == "W") {
-        board.active_side = 0;
+        board.active_side = white;
     } else if (partitions[1] == "b" || partitions[1] == "B") {
-        board.active_side = 1;
+        board.active_side = black;
     }
 
     // setting up castling rights
     board.castling_rights = 0;
     if (partitions[2].find("K") != std::string::npos) {
-        board.castling_rights |= 0b0001;
+        board.castling_rights |= CASTLING_WHITE_SHORT;
     }
     if (partitions[2].find("Q") != std::string::npos) {
-        board.castling_rights |= 0b0010;
+        board.castling_rights |= CASTLING_WHITE_LONG;
     }
     if (partitions[2].find("k") != std::string::npos) {
-        board.castling_rights |= 0b0100;
+        board.castling_rights |= CASTLING_BLACK_SHORT;
     }
     if (partitions[2].find("q") != std::string::npos) {
-        board.castling_rights |= 0b1000;
+        board.castling_rights |= CASTLING_BLACK_LONG;
     }
 
     // setting up bit boards

@@ -18,6 +18,7 @@ int main () {
     std::cout << "shiss enjine activated, glory to shisha" << std::endl;
 
     chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // chessboard_t board = from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1");
 
     // print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));
     // print_bitboard(compute_knight(0x8000000, 0));
@@ -26,6 +27,8 @@ int main () {
 
     // chessboard_make_move(board, new_move(3, 62, 0, 1, 0, 0, 0));
     // print_bitboard(board.bitboards[black*6+knights]);
+
+    chessboard_make_move(board, new_move(0, 0, 0, 0, 0, 0, 0b10));
 
     std::string input;
     do {

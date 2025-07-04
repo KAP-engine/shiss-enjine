@@ -22,6 +22,14 @@ uint64_t clear_bit_val(uint64_t board, int index);
 // This function reverses the bits of a bit board.
 int64_t reverse_bitboard(uint64_t bitboard);
 
+// This function returns the index of the least significant bit of the bit
+// board given.
+int first_set_bit(uint64_t n);
+
+// This function returns a bit board whose bits between index a and b (a and b
+// included) are 1.
+uint64_t range_bits(uint64_t a, uint64_t b);
+
 // This is a small helper function that transforms board x and y coordinates to
 // an index, useful.
 int to_index(int x, int y);
@@ -29,3 +37,5 @@ int to_index(int x, int y);
 // This function returns the appropriate symbol for the give square of the
 // board.
 char piece_char_at(chessboard_t& board, int square_index);
+
+

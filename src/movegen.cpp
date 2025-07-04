@@ -1,6 +1,10 @@
+#include <bitset>
+#include <iostream>
 #include <cstdint>
 #include <math.h>
 
+#include "chessboard.h"
+#include "display.h"
 #include "movegen.h"
 #include "utils.h"
 #include "types_and_consts.h"
@@ -90,11 +94,6 @@ uint64_t compute_black_pawn(
     return pawn_valid_moves;
 }
 
-// index least significant bit
-int first_set_bit(uint64_t n) {
-    return log2(n & -n);
-}
-
 size_t get_diagonal_mask_index(uint64_t piece_index) {
     int x = piece_index % 8;
     int y = floor(piece_index / 8);
@@ -174,3 +173,41 @@ uint64_t compute_sliding_piece(
 
     return final_moves;
 }
+
+bool can_castle(chessboard_t& board, uint8_t side, uint8_t castling_type) {
+    uint8_t appropriate_mask;
+    if (side == white && castling_type == 0b01) {
+        appropriate_mask = CASTLING_WHITE_SHORT;
+    } else if (side == white && castling_type == 0b10) {
+        appropriate_mask = CASTLING_WHITE_LONG;
+    } if (side == black && castling_type == 0b01) {
+        appropriate_mask = CASTLING_BLACK_SHORT;
+    } else if (side == black && castling_type == 0b10) {
+        appropriate_mask = CASTLING_BLACK_LONG;
+    }
+
+    if ((board.castling_rights & appropriate_mask) == 0) {
+        return false;
+    }
+
+    uint64_t king_loc = board.bitboards[side*6+king];
+
+    uint8_t local_rook_index;
+    if (castling_type == 0b01) {
+        local_rook_index = 7;
+    } else if (castling_type == 0b10) {
+        local_rook_index = 0;
+    }
+    uint64_t rook_loc = 1ULL << (side*56 + local_rook_index);
+
+    uint64_t mask =
+        range_bits(first_set_bit(king_loc), first_set_bit(rook_loc))
+        & ~(king_loc | rook_loc);
+
+    if ((all_pieces(board) & mask) != 0) {
+        return false;
+    }
+
+    return true;
+}
+

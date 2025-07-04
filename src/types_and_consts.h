@@ -22,6 +22,11 @@ enum { pawns, knights, elephants, rooks, ministers, king };
 // for turn and bitboard indexing
 enum { white, black };
 
+const uint8_t CASTLING_WHITE_SHORT = 0b0001;
+const uint8_t CASTLING_WHITE_LONG = 0b0010;
+const uint8_t CASTLING_BLACK_SHORT = 0b0100;
+const uint8_t CASTLING_BLACK_LONG = 0b1000;
+
 const uint64_t MASK_RANK[] = {
     0x00000000000000FF, 
     0x000000000000FF00,

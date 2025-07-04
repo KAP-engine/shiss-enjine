@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "chessboard.h"
+
 // These function, after receiving a single piece bit board, the piece's side
 // and a few other informations, return all the possible squares the piece is
 // able to move to as a bit board.
@@ -14,3 +16,6 @@ uint64_t compute_black_pawn(uint64_t pawn_loc, uint64_t all_pieces,
 uint64_t compute_sliding_piece(int piece_type, uint64_t piece_loc, 
                                uint64_t all_pieces, uint64_t own_side);
 
+// This function returns a boolean indicating whether the side given has the
+// ability to castle (rights and empty road) king-side or queen-side.
+bool can_castle(chessboard_t& board, uint8_t side, uint8_t castling_type);
