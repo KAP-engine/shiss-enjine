@@ -16,7 +16,8 @@ int main () {
     // print_bin(reverse_bitboard(0x26));
     // print_bitboard(0x0101010101010100);
 
-    chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    chessboard_t board = from_fen("rnbqkbnr/8/8/2Q5/8/8/8/RNBQKBNR w KQkq - 0 1");
     // chessboard_t board = from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1");
 
     // print_bitboard(compute_black_pawn(1ULL << 54, all_pieces(board), all_white_pieces(board)));
@@ -31,11 +32,14 @@ int main () {
     // board.active_side = black;
     // chessboard_make_move(board, new_move(0, 0, 0, 0, 0, 0, 0b01));
     // chessboard_make_move(board, new_move(0, 0, 0, 0, 0, 0, 0b10));
-    // std::cout << new_move(55, 47, 0, 0, 0, 0, 0) << std::endl;
-
-    std::cout << "shiss enjine activated, glory to shisha\n" << std::endl;
+     
+    // std::cout << new_move(34, 61, 0, 0, 0, 0, 0) << std::endl;
     // std::cout << new_move(1, 15, 0, 0, 0, 0, 0) << "\n";
 
+    std::cout << "shiss enjine activated, glory to shisha\n" << std::endl;
+
+    print_chessboard(board);
+    std::cout << std::endl;
     std::string input;
     do {
         std::cout << "shiss> ";
