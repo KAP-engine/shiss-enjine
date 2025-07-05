@@ -59,9 +59,9 @@ void print_board_info(chessboard_t& board) {
               << "\n";
 
     std::cout << "    Castling:  "
-              << (board.castling_rights & CASTLING_WHITE_LONG ? "K" : "")
-              << (board.castling_rights & CASTLING_WHITE_SHORT ? "Q" : "")
-              << (board.castling_rights & CASTLING_BLACK_LONG ? "k" : "")
-              << (board.castling_rights & CASTLING_BLACK_SHORT ? "q" : "")
+              << (board.castling_rights & CASTLING_WHITE_LONG ? "Q" : "")
+              << (board.castling_rights & CASTLING_WHITE_SHORT ? "K" : "")
+              << (board.castling_rights & CASTLING_BLACK_LONG ? "q" : "")
+              << (board.castling_rights & CASTLING_BLACK_SHORT ? "k" : "")
               << "\n";
 }

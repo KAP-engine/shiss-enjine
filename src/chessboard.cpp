@@ -1,3 +1,5 @@
+#include <_types/_uint64_t.h>
+#include <bitset>
 #include <math.h>
 #include <string>
 
@@ -27,7 +29,30 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
     // castling
     uint8_t castling_type = get_move_castling(move);
     if (castling_type != 0b00 || castling_type != 0b11) {
-        if (can_castle(board, board.active_side, castling_type)) {
+        uint8_t side = board.active_side;
+
+        if (can_castle(board, side, castling_type)) {
+            if (castling_type == SHORT_CASTLE) {
+                uint64_t new_king_bitboard = 1ULL << (side*56+6);
+                board.bitboards[side*6+king] = new_king_bitboard;
+
+                uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
+                clear_bit(rook_bitboard, side*56+7);
+                set_bit(rook_bitboard, side*56+5);
+            } else if (castling_type == LONG_CASTLE) {
+                uint64_t new_king_bitboard = 1ULL << (side*56+2);
+                board.bitboards[side*6+king] = new_king_bitboard;
+
+                uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
+                clear_bit(rook_bitboard, side*56+0);
+                set_bit(rook_bitboard, side*56+3);
+            }
+
+            // edit castling rights
+            
+            board.castling_rights = board.castling_rights & ~(1ULL << (side*2 + castling_type - 1));
+            std::cout << std::bitset<4>(1ULL << (side*2 + castling_type -1)) << "\n";
+
             return None;
         }
     }

@@ -176,13 +176,13 @@ uint64_t compute_sliding_piece(
 
 bool can_castle(chessboard_t& board, uint8_t side, uint8_t castling_type) {
     uint8_t appropriate_mask;
-    if (side == white && castling_type == 0b01) {
+    if (side == white && castling_type == SHORT_CASTLE) {
         appropriate_mask = CASTLING_WHITE_SHORT;
-    } else if (side == white && castling_type == 0b10) {
+    } else if (side == white && castling_type == LONG_CASTLE) {
         appropriate_mask = CASTLING_WHITE_LONG;
-    } if (side == black && castling_type == 0b01) {
+    } if (side == black && castling_type == SHORT_CASTLE) {
         appropriate_mask = CASTLING_BLACK_SHORT;
-    } else if (side == black && castling_type == 0b10) {
+    } else if (side == black && castling_type == LONG_CASTLE) {
         appropriate_mask = CASTLING_BLACK_LONG;
     }
 
