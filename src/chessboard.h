@@ -24,7 +24,9 @@ typedef struct {
 
 // MOVE_ERROR enum
 typedef enum {
+    PieceCannotMoveThere,
     CannotCastle,
+    MovingEnemyPiece,
     None,
 } move_error;
 

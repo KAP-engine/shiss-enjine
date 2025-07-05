@@ -193,9 +193,9 @@ bool can_castle(chessboard_t& board, uint8_t side, uint8_t castling_type) {
     uint64_t king_loc = board.bitboards[side*6+king];
 
     uint8_t local_rook_index;
-    if (castling_type == 0b01) {
+    if (castling_type == SHORT_CASTLE) {
         local_rook_index = 7;
-    } else if (castling_type == 0b10) {
+    } else if (castling_type == LONG_CASTLE) {
         local_rook_index = 0;
     }
     uint64_t rook_loc = 1ULL << (side*56 + local_rook_index);

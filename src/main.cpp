@@ -32,6 +32,7 @@ int main () {
     // chessboard_make_move(board, new_move(0, 0, 0, 0, 0, 0, 0b10));
 
     std::cout << "shiss enjine activated, glory to shisha\n" << std::endl;
+    // std::cout << new_move(1, 15, 0, 0, 0, 0, 0) << "\n";
 
     std::string input;
     do {

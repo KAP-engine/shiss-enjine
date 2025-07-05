@@ -22,12 +22,20 @@ void parse_command(std::vector<std::string> cmd, chessboard_t& board) {
         move_error err = chessboard_make_move(board, move);
 
         switch (err) {
-        case None:
-            print_chessboard(board);
+        case PieceCannotMoveThere:
+            error_print("invalid move: piece cannot move there");
             break;
 
         case CannotCastle:
             error_print("invalid move: cannot castle");
+            break;
+
+        case MovingEnemyPiece:
+            error_print("invalid move: moving enemy piece");
+            break;
+
+        case None:
+            print_chessboard(board);
             break;
         }
     } else if (cmd[0] == "move_gen") {
