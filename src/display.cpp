@@ -36,8 +36,6 @@ void print_chessboard(chessboard_t board) {
 }
 
 void print_board_layout(std::array<std::string, 64> values) {
-    std::cout << "\n";
-
     for (int rank = 7; rank >= 0; rank--) {
         std::cout << " " << rank + 1 << "  ";
 
@@ -62,6 +60,5 @@ void print_board_info(chessboard_t& board) {
               << (board.castling_rights & CASTLING_WHITE_LONG ? "Q" : "")
               << (board.castling_rights & CASTLING_WHITE_SHORT ? "K" : "")
               << (board.castling_rights & CASTLING_BLACK_LONG ? "q" : "")
-              << (board.castling_rights & CASTLING_BLACK_SHORT ? "k" : "")
-              << "\n";
+              << (board.castling_rights & CASTLING_BLACK_SHORT ? "k" : "");
 }
