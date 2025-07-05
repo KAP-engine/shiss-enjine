@@ -24,6 +24,7 @@ typedef struct {
 
 // MOVE_ERROR enum
 typedef enum {
+    CannotCastle,
     None,
 } move_error;
 
