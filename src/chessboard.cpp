@@ -52,6 +52,8 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
         uint8_t mask = ~(1ULL << (side*2 + castling_type - 1));
         board.castling_rights = board.castling_rights & mask;
 
+        // if 0 (white), 1 (black), if 1 (black), 0 (white)
+        board.active_side = !board.active_side;
         return None;
     }
     
@@ -88,14 +90,19 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
         switch (piece_type) {
         case pawns:
             if (side == white) {
-                compute_white_pawn(source, own_side | enemy_side, enemy_side);
+                available_squares =
+                    compute_white_pawn(
+                       1ULL << source, own_side | enemy_side, enemy_side
+                   );
             } else if (side == black) {
-                compute_black_pawn(source, own_side | enemy_side, enemy_side);
+                available_squares =
+                    compute_black_pawn(
+                       1ULL << source, own_side | enemy_side, enemy_side
+                    );
             }
             break;
 
         case knights:
-        // std::cout << "yo nigga";
             available_squares = compute_knight(1ULL << source, own_side);
             break;
 
@@ -104,7 +111,7 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
         case ministers:
             available_squares =
                 compute_sliding_piece(
-                    piece_type, source, own_side | enemy_side, own_side
+                    piece_type, 1ULL << source, own_side | enemy_side, own_side
                 );
             break;
 
@@ -139,6 +146,8 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
 
     // handle promotion
 
+    // if 0 (white), 1 (black), if 1 (black), 0 (white)
+    board.active_side = !board.active_side;
     return None;
 }
 
