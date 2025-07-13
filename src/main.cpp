@@ -17,8 +17,11 @@ int main () {
     // print_bitboard(0x0101010101010100);
 
     // chessboard_t board = from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    chessboard_t board = from_fen("rnbqkbnr/8/8/2Q5/8/8/8/RNBQKBNR w KQkq - 0 1");
+    // chessboard_t board = from_fen("rnbqkbnr/8/8/2Q5/8/8/8/RNBQKBNR w KQkq - 0 1");
     // chessboard_t board = from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1");
+    chessboard_t board = from_fen("1k4rr/3P1P2/8/8/8/8/PPP1P1PP/RNBQKBNR w KQkq - 0 1");
+    std::cout << new_move(51, 59, 0b01, 0, 0, 0, 0) << std::endl;
+    std::cout << new_move(53, 62, 0b01, 1, 0, 0, 0) << std::endl;
 
     // print_bitboard(compute_black_pawn(1ULL << 54, all_pieces(board), all_white_pieces(board)));
     // print_bitboard(compute_king(board.bitboards[white+king], all_white_pieces(board)));

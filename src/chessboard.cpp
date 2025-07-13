@@ -1,6 +1,3 @@
-#include <_types/_uint64_t.h>
-#include <_types/_uint8_t.h>
-#include <bitset>
 #include <math.h>
 #include <string>
 
@@ -23,6 +20,86 @@ void chessboard_direct_move(chessboard_t& board, int source, int target) {
     }
 }
 
+void handle_castling(uint8_t castling_type, chessboard_t& board, uint8_t side) {
+    if (castling_type == SHORT_CASTLE) {
+        uint64_t new_king_bitboard = 1ULL << (side*56+6);
+        board.bitboards[side*6+king] = new_king_bitboard;
+
+        uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
+        clear_bit(rook_bitboard, side*56+7);
+        set_bit(rook_bitboard, side*56+5);
+    } else if (castling_type == LONG_CASTLE) {
+        uint64_t new_king_bitboard = 1ULL << (side*56+2);
+        board.bitboards[side*6+king] = new_king_bitboard;
+
+        uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
+        clear_bit(rook_bitboard, side*56+0);
+        set_bit(rook_bitboard, side*56+3);
+    }
+
+    uint8_t mask = ~(1ULL << (side*2 + castling_type - 1));
+    board.castling_rights = board.castling_rights & mask;
+}
+
+move_error verify_move(chessboard_t& board, uint8_t source, uint8_t target, size_t bitboard_index) {
+    uint8_t side = floor(bitboard_index / 6);
+    if (side != board.active_side) {
+        return MovingEnemyPiece;
+    }
+
+    uint64_t own_side;
+    uint64_t enemy_side;
+    if (side == white) {
+        own_side = all_white_pieces(board);
+        enemy_side = all_black_pieces(board);
+    } else if (side == black) {
+        own_side = all_black_pieces(board);
+        enemy_side = all_white_pieces(board);
+    }
+
+    uint64_t available_squares;
+    uint8_t piece_type = bitboard_index - side*6;
+    switch (piece_type) {
+    case pawns:
+        if (side == white) {
+            available_squares =
+                compute_white_pawn(
+                   1ULL << source, own_side | enemy_side, enemy_side
+               );
+        } else if (side == black) {
+            available_squares =
+                compute_black_pawn(
+                   1ULL << source, own_side | enemy_side, enemy_side
+                );
+        }
+        break;
+
+    case knights:
+        available_squares = compute_knight(1ULL << source, own_side);
+        break;
+
+    case elephants:
+    case rooks:
+    case ministers:
+        available_squares =
+            compute_sliding_piece(
+                piece_type, 1ULL << source, own_side | enemy_side, own_side
+            );
+        break;
+
+    case king:
+        available_squares =
+            compute_king(board.bitboards[side*6+king], own_side);
+        break;
+    }
+
+    if ((available_squares & (1ULL << target)) == 0) {
+        return PieceCannotMoveThere;
+    }
+
+    return None;
+}
+
 move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
     // castling
     uint8_t castling_type = get_move_castling(move);
@@ -33,27 +110,11 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
             return CannotCastle;
         }
 
-        if (castling_type == SHORT_CASTLE) {
-            uint64_t new_king_bitboard = 1ULL << (side*56+6);
-            board.bitboards[side*6+king] = new_king_bitboard;
-
-            uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
-            clear_bit(rook_bitboard, side*56+7);
-            set_bit(rook_bitboard, side*56+5);
-        } else if (castling_type == LONG_CASTLE) {
-            uint64_t new_king_bitboard = 1ULL << (side*56+2);
-            board.bitboards[side*6+king] = new_king_bitboard;
-
-            uint64_t& rook_bitboard = board.bitboards[side*6+rooks]; 
-            clear_bit(rook_bitboard, side*56+0);
-            set_bit(rook_bitboard, side*56+3);
-        }
-
-        uint8_t mask = ~(1ULL << (side*2 + castling_type - 1));
-        board.castling_rights = board.castling_rights & mask;
+        handle_castling(castling_type, board, side);
 
         // if 0 (white), 1 (black), if 1 (black), 0 (white)
         board.active_side = !board.active_side;
+
         return None;
     }
     
@@ -61,79 +122,11 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
     uint8_t source = get_move_source(move); 
     uint8_t target = get_move_target(move);
 
-    // verify move
-    
     // move piece
-    for (std::size_t i = 0; i < board.bitboards.size(); i++) {
-        bool square_occupied = (board.bitboards[i] >> source) & 1;
-        if (!square_occupied) {
-            continue;
-        }
-
-        uint8_t side = floor(i / 6);
-        if (side != board.active_side) {
-            return MovingEnemyPiece;
-        }
-
-        uint64_t own_side;
-        uint64_t enemy_side;
-        if (side == white) {
-            own_side = all_white_pieces(board);
-            enemy_side = all_black_pieces(board);
-        } else if (side == black) {
-            own_side = all_black_pieces(board);
-            enemy_side = all_white_pieces(board);
-        }
-
-        uint64_t available_squares;
-        uint8_t piece_type = i - side*6;
-        switch (piece_type) {
-        case pawns:
-            if (side == white) {
-                available_squares =
-                    compute_white_pawn(
-                       1ULL << source, own_side | enemy_side, enemy_side
-                   );
-            } else if (side == black) {
-                available_squares =
-                    compute_black_pawn(
-                       1ULL << source, own_side | enemy_side, enemy_side
-                    );
-            }
-            break;
-
-        case knights:
-            available_squares = compute_knight(1ULL << source, own_side);
-            break;
-
-        case elephants:
-        case rooks:
-        case ministers:
-            available_squares =
-                compute_sliding_piece(
-                    piece_type, 1ULL << source, own_side | enemy_side, own_side
-                );
-            break;
-
-        case king:
-            available_squares =
-                compute_king(board.bitboards[side*6+king], own_side);
-            break;
-        }
-
-        if ((available_squares & (1ULL << target)) == 0) {
-            return PieceCannotMoveThere;
-        }
-
-        clear_bit(board.bitboards[i], source);
-        set_bit(board.bitboards[i], target);
-        break;
-    }
-
     // clear captured square
     bool is_capture = is_move_capture(move);
     if (is_capture) {
-        for (std::size_t i = 0; i < board.bitboards.size(); i++) {
+        for (size_t i = 0; i < board.bitboards.size(); i++) {
             bool square_occupied = (board.bitboards[i] >> target) & 1;
             if (!square_occupied) {
                 continue;
@@ -142,6 +135,22 @@ move_error chessboard_make_move(chessboard_t& board, uint32_t move) {
             clear_bit(board.bitboards[i], target);
             break;
         }
+    }
+
+    for (size_t i = 0; i < board.bitboards.size(); i++) {
+        bool square_occupied = (board.bitboards[i] >> source) & 1;
+        if (!square_occupied) {
+            continue;
+        }
+
+        move_error err = verify_move(board, source, target, i);
+        if (err != None) {
+            return err;
+        }
+
+        clear_bit(board.bitboards[i], source);
+        set_bit(board.bitboards[i], target);
+        break;
     }
 
     // handle promotion
